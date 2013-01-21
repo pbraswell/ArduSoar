@@ -13,13 +13,37 @@
  
  // Keep track of the previous flight mode so we can transition back
  // When we come out of thermal mode.
- static int previous_flight_mode;
+ static FlightMode previous_control_mode;
  
  // Check to see if see if we should be thermalling
- static void thermal() {
+ static FlightMode thermal(FlightMode current_control_mode) {\
+
+   FlightMode calculated_control_mode = current_control_mode;
+   
+   if( g.soar_active == 1 ) {
+     
+     if (read_climb_rate() > g.thermal_vspeed ) {
+       previous_control_mode = current_control_mode;
+       calculated_control_mode =  CIRCLE;
+     }
+   }
+   
+   return calculated_control_mode;
+   
  }
  
  // Check to see if we've topped out of a thermal and 
- // Should transition to cruise
- static void cruise() {
+ // Should transition to cruise (or rather the previous control mode).
+ static FlightMode cruise(FlightMode current_control_mode) {
+   
+   FlightMode calculated_control_mode = current_control_mode;
+ 
+   if ( g.soar_active == 1 ) {
+     
+     if (read_climb_rate() < 0 ) {
+       calculated_control_mode =  previous_control_mode;
+     }
+   }
+   
+   return calculated_control_mode;
  }

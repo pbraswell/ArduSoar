@@ -1097,6 +1097,7 @@ static void update_current_flight_mode(void)
             calc_nav_roll();
             calc_nav_pitch();
             calc_throttle();
+            control_mode = thermal(AUTO);
             break;
         }
     }else{
@@ -1157,6 +1158,7 @@ static void update_current_flight_mode(void)
             if (inverted_flight) {
                 nav_pitch_cd = -nav_pitch_cd;
             }
+            control_mode = thermal(FLY_BY_WIRE_A);
             break;
         }
 
@@ -1203,6 +1205,8 @@ static void update_current_flight_mode(void)
             if (failsafe != FAILSAFE_NONE) {
                 g.channel_throttle.servo_out = g.throttle_cruise;
             }
+            // If we were thermaling, is it time to transition to cruise?
+            control_mode = cruise(control_mode);
             break;
 
         case MANUAL:

@@ -11,9 +11,10 @@
 // The following are the recommended settings for Xplane
 // simulation. Remove the leading "/* and trailing "*/" to enable:
 
+// Comment out HIL_MODE for none simulated compile
 #define HIL_MODE            HIL_MODE_ATTITUDE
 #define SOAR_ACTIVE 0    // Default - disapbled
-#define THERMAL_VSPEED 2 // Defautl - 2 m/s
+#define THERMAL_VSPEED 2 // Default - 2 m/s
 
 /*
  *  // HIL_MODE SELECTION

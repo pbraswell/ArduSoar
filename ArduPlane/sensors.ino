@@ -90,5 +90,6 @@ static int32_t adjusted_altitude_cm(void)
 */
 static float read_climb_rate() {
   barometer.read();
+  barometer.get_altitude();
   return barometer.get_climb_rate();
 }
